@@ -13,15 +13,19 @@ def log(message: str):
 class TsunamiConfiguration:
     """Base class for all TsunamiConfiguration classes."""
 
-    task: Callable[[...], Awaitable[bool]]
+    task: Callable[[], Awaitable[bool]]
     """The task to be executed."""
+    weight: float
+    """The weight of the task. Used to calculate the probability of the task being executed."""
 
-    def __init__(self, task: Callable[[...], Awaitable[bool]]):
+    def __init__(self, task: Callable[[], Awaitable[bool]], *, weight: float = 1):
         self.task = task
+        self.weight = weight
 
 
 class GraphqlPostConfiguration(TsunamiConfiguration):
     """Configuration for a graphql post request."""
+
     session: aiohttp.ClientSession
     """AIOHttp client session to be used for the request."""
     url: str
@@ -38,12 +42,13 @@ class GraphqlPostConfiguration(TsunamiConfiguration):
         body: str,
         *,
         headers: dict | None = None,
+        weight: float = 1,
     ):
         self.session = session
         self.url = url
         self.body = body
         self.headers = headers
-        super().__init__(self.send_request)
+        super().__init__(self.send_request, weight=weight)
 
     async def send_request(self) -> bool:
         try:

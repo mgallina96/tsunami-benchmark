@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+src/configurations.py
+src/runner.py
+src/treds_tsunami_benchmark.egg-info/PKG-INFO
+src/treds_tsunami_benchmark.egg-info/SOURCES.txt
+src/treds_tsunami_benchmark.egg-info/dependency_links.txt
+src/treds_tsunami_benchmark.egg-info/requires.txt
+src/treds_tsunami_benchmark.egg-info/top_level.txt
