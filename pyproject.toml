@@ -3,12 +3,12 @@ requires = ["setuptools>=65.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "treds_tsunami_benchmark"
+name = "tsunami_benchmark"
 version = "0.2.0"
 authors = [
   { name="Manuel Gallina", email="manuel.gallina@3ds.team" },
 ]
-description = "Utility library to stress test services"
+description = "Python package to perform stress tests"
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [

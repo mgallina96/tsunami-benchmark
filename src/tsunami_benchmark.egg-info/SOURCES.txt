@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/configurations.py
+src/runner.py
+src/tsunami_benchmark.egg-info/PKG-INFO
+src/tsunami_benchmark.egg-info/SOURCES.txt
+src/tsunami_benchmark.egg-info/dependency_links.txt
+src/tsunami_benchmark.egg-info/requires.txt
+src/tsunami_benchmark.egg-info/top_level.txt

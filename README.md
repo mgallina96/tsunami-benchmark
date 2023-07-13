@@ -1,5 +1,7 @@
 # Tsunami benchmark
 
+Python package to perform stress tests.
+
 ## Build
 
 Commands to build the package:

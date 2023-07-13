@@ -1,22 +1,21 @@
 Metadata-Version: 2.1
-Name: treds-tsunami-benchmark
+Name: tsunami-benchmark
 Version: 0.2.0
-Summary: Utility library to stress test services
+Summary: Python package to perform stress tests
 Author-email: Manuel Gallina <manuel.gallina@3ds.team>
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
+License-File: LICENSE
 
-# 3DS Team - QueryBuilder V2
+# Tsunami benchmark
+
+Python package to perform stress tests.
 
 ## Build
 
-Comandi per la build del package:
+Commands to build the package:
 
     python -m pip install --upgrade build
     python -m build
-
-## Docs
-
-https://www.notion.so/3dsteam/QueryBuilderV2-a5240b9aa1c447d3b427244cbc443923
