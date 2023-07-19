@@ -1,9 +1,11 @@
 import asyncio
 import random
 import time
+from datetime import datetime
 from typing import Callable, Awaitable, Union
 
-from configurations import TsunamiConfiguration
+from models.configuration import TsunamiConfiguration
+from models.result import TaskResult, BenchmarkResult, ConfigurationResult
 
 
 class TsunamiRunner:
@@ -21,9 +23,17 @@ class TsunamiRunner:
     """ Time to be waited before appending a new instance of the task to the execution queue. """
     task_delay: Union[float, Callable[[int], float], Callable[[int], Awaitable[float]]]
     """ Time to be waited after the task is selected from the queue and before it is actually executed. """
+    run_started_at: datetime
+    """ Timestamp of the beginning of the run. """
+    run_ended_at: datetime
+    """ Timestamp of the end of the run. """
 
     _run_start_timestamp_ns: int
-    """ Timestamp of the beginning of the run. """
+    """ Timestamp of the beginning of the run. Value with better precision 
+    than 'run_started_at' used for measuring performance."""
+    _run_end_timestamp_ns: int
+    """ Timestamp of the end of the run. Value with better precision
+    than 'run_ended_at' used for measuring performance."""
 
     def __init__(
         self,
@@ -43,6 +53,7 @@ class TsunamiRunner:
         self.queueing_delay = queueing_delay
         self.task_delay = task_delay
         self._run_start_timestamp_ns = -1
+        self._run_end_timestamp_ns = -1
 
     async def _compute_delay(
         self,
@@ -66,15 +77,31 @@ class TsunamiRunner:
                 return delay(time.perf_counter_ns() - self._run_start_timestamp_ns)
         return 0
 
-    async def run(self):
+    async def run(self) -> BenchmarkResult:
         """Run the benchmark."""
         self._run_start_timestamp_ns = time.perf_counter_ns()
+        self.run_started_at = datetime.now()
         semaphore: asyncio.Semaphore = asyncio.Semaphore(self.concurrency)
+        configuration_results: dict[str, ConfigurationResult] = {
+            c.code: ConfigurationResult(c, []) for c in self.configurations
+        }
 
-        async def run_with_semaphore(_task: Callable[[], Awaitable[bool]]):
+        async def run_with_semaphore(configuration: TsunamiConfiguration):
             async with semaphore:
                 await asyncio.sleep(await self._compute_delay(self.task_delay))
-                await _task()
+                start_timestamp_ns = time.perf_counter_ns()
+                try:
+                    result = await configuration.task.run()
+                except Exception as e:
+                    result = (False, {"error": str(e)})
+                end_timestamp_ns = time.perf_counter_ns()
+                configuration_results[configuration.code].task_results.append(
+                    TaskResult(
+                        result,
+                        start_timestamp_ns,
+                        end_timestamp_ns,
+                    )
+                )
 
         tasks = []
         configurations: list[TsunamiConfiguration] = random.choices(
@@ -83,8 +110,17 @@ class TsunamiRunner:
             k=self.total_count,
         )
         for i in range(self.total_count):
-            task = asyncio.create_task(run_with_semaphore(configurations[i].task))
+            task = asyncio.create_task(run_with_semaphore(configurations[i]))
             tasks.append(task)
             await asyncio.sleep(await self._compute_delay(self.queueing_delay))
 
         await asyncio.gather(*tasks)
+        self._run_end_timestamp_ns = time.perf_counter_ns()
+        self.run_ended_at = datetime.now()
+        return BenchmarkResult(
+            list(configuration_results.values()),
+            self._run_start_timestamp_ns,
+            self._run_end_timestamp_ns,
+            self.run_started_at,
+            self.run_ended_at,
+        )
