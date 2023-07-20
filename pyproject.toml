@@ -16,5 +16,5 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "aiohttp >= 3.8.4"
+    "aiohttp ~= 3.8.4"
 ]
