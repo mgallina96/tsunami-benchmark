@@ -1,11 +1,11 @@
 Metadata-Version: 2.1
 Name: tsunami-benchmark
-Version: 0.4.0
+Version: 0.4.1
 Summary: Python package to perform stress tests
 Author-email: Manuel Gallina <manuel.gallina@3ds.team>
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.11
+Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
