@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from models.configuration import TsunamiConfiguration
+from tsunami_benchmark.models.configuration import TsunamiConfiguration
 
 
 class TaskResult:

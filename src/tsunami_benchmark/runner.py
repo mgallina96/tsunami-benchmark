@@ -4,8 +4,12 @@ import time
 from datetime import datetime
 from typing import Callable, Awaitable, Union
 
-from models.configuration import TsunamiConfiguration
-from models.result import TaskResult, BenchmarkResult, ConfigurationResult
+from tsunami_benchmark.models.configuration import TsunamiConfiguration
+from tsunami_benchmark.models.result import (
+    TaskResult,
+    BenchmarkResult,
+    ConfigurationResult,
+)
 
 
 class TsunamiRunner:

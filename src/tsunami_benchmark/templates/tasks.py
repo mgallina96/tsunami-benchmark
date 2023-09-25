@@ -3,7 +3,7 @@ import asyncio
 import aiohttp
 from aiohttp import ClientTimeout
 
-from models.configuration import TsunamiTask
+from tsunami_benchmark.models.configuration import TsunamiTask
 
 
 class DemoTask(TsunamiTask):

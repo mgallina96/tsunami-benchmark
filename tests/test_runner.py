@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 
-from models.configuration import TsunamiTask, TsunamiConfiguration
-from runner import TsunamiRunner
+from tsunami_benchmark.models.configuration import TsunamiTask, TsunamiConfiguration
+from tsunami_benchmark.runner import TsunamiRunner
 
 
 START = "START"
