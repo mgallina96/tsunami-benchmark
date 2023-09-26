@@ -10,4 +10,7 @@
     <orderEntry type="jdk" jdkName="Python 3.10 (TsunamiBenchmark)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="SonarLintModuleSettings">
+    <option name="uniqueId" value="5684c187-6f7b-4670-a1d1-d2ae1cf4a9d0" />
+  </component>
 </module>
